@@ -68,7 +68,7 @@ class Base:
         self.ax.set_xlim(0, max(self.drive.t))
         self.ax.set_ylim(0, self.drive.max_val + 2)
         self.ax.axhline(y=self.drive.steady, color='red', ls='--', label='Установившееся')
-        self.ax.axhline(y=1, color='gray', ls=':', label='Задание')
+        self.ax.axhline(y= self.drive.params['no_os_k'] if self.drive.type == 'no_os' else 1 , color='gray', ls=':', label='Задание')
         self.ax.set_title(self.PLOT_TITLE)
         self.ax.set_xlabel('Время, с')
         self.ax.set_ylabel('Выход')

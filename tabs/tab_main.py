@@ -154,9 +154,11 @@ class TabMain:
         """Рассчитать метрики качества для привода"""
         t = drive.t
         y = drive.y
+        ex = drive.params['no_os_k'] if drive.type == 'no_os' else 1
         
-        steady_error = abs(drive.steady - 1.0) * 100
-        overshoot = max(0, (drive.max_val - 1.0) / 1.0 * 100)
+
+        steady_error = abs(drive.steady - ex) * 100
+        overshoot = max(0, (drive.max_val - ex) / ex * 100)
         
         rise_time = 0.0
         for i, val in enumerate(y):
@@ -312,7 +314,6 @@ class TabMain:
         
         try:
             for drive in self.drives:
-                # ✅ ИСПРАВЛЕНО: drive.type вместо drive.model_type
                 drive.params.update(params[drive.type])
                 drive.calc()
             
@@ -326,7 +327,6 @@ class TabMain:
             self.ax.set_xlim(0, x_max)
             self.ax.set_ylim(0, y_max)
 
-                    # ✅ ДОБАВИТЬ: Обновление линий графика
             for i, drive in enumerate(self.drives):
                 self.lines[i].set_data(drive.t, drive.y)
             
