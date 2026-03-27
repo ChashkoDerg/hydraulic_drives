@@ -73,9 +73,9 @@ class PlotWindow:
 # Использование
 if __name__ == "__main__":
     params_init = {
-        'no_os': {'k': 25, 'zeta': 0.3, 'T': 0.025},
-        'zhos': {'k': 25, 'k_os': 1, 'zeta': 0.65, 'T': 0.025},
-        'ios': {'k': 22, 'k_os': 1, 'zeta': 0.8, 'Ti': 0.015, 'T': 0.024}
+        'no_os': {'no_os_k': 25, 'no_os_zeta': 0.3, 'no_os_T': 0.025},
+        'zhos': {'zhos_k': 25, 'zhos_k_os': 1, 'zhos_zeta': 0.65, 'zhos_T': 0.025},
+        'ios': {'ios_k': 22, 'ios_k_os': 1, 'ios_zeta': 0.8, 'ios_Ti': 0.015, 'ios_T': 0.024}
     }
     
     app = PlotWindow(params_init)

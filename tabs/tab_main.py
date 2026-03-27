@@ -8,7 +8,26 @@ from widgets.sliders import MySlider
 
 class TabMain:
     """Вкладка с тремя гидроприводами: график слева, выводы справа"""
-
+    SLIDER_CONFIG = {
+        'no_os': {
+            'no_os_k': {'label': 'k', 'borders': (1, 100)},
+            'no_os_zeta': {'label': 'ζ', 'borders': (0.1, 2.0)},
+            'no_os_T': {'label': 'T', 'borders': (0.005, 1)}
+        },
+        'zhos': { 
+            'zhos_k': {'label': 'k', 'borders': (1, 100)},
+            'zhos_k_os': {'label': 'k_os', 'borders': (0.1, 5)},
+            'zhos_zeta': {'label': 'ζ', 'borders': (0.1, 2.0)},
+            'zhos_T': {'label': 'T', 'borders': (0.005, 1)}
+        },
+        'ios': {
+            'ios_k': {'label': 'k', 'borders': (1, 100)},
+            'ios_k_os': {'label': 'k_os', 'borders': (0.1, 5)},
+            'ios_zeta': {'label': 'ζ', 'borders': (0.1, 2.0)},
+            'ios_Ti': {'label': 'Ti', 'borders': (0.02, 0.5)},
+            'ios_T': {'label': 'T', 'borders': (0.005, 1)}
+        }
+    }
     def __init__(self, fig, position, params_init):
         self.fig = fig
         self.position = position
@@ -244,33 +263,14 @@ class TabMain:
         
         dy = 0.04
         
-        SLIDER_CONFIG = {
-            'no_os': {
-                'k': {'label': 'k', 'borders': (1, 100)},
-                'zeta': {'label': 'ζ', 'borders': (0.1, 2.0)},
-                'T': {'label': 'T', 'borders': (0.005, 1)}
-            },
-            'zhos': { 
-                'k': {'label': 'k', 'borders': (1, 100)},
-                'k_os': {'label': 'k_os', 'borders': (0.1, 5)},
-                'zeta': {'label': 'ζ', 'borders': (0.1, 2.0)},
-                'T': {'label': 'T', 'borders': (0.005, 1)}
-            },
-            'ios': {
-                'k': {'label': 'k', 'borders': (1, 100)},
-                'k_os': {'label': 'k_os', 'borders': (0.1, 5)},
-                'zeta': {'label': 'ζ', 'borders': (0.1, 2.0)},
-                'Ti': {'label': 'Ti', 'borders': (0.02, 0.5)},
-                'T': {'label': 'T', 'borders': (0.005, 1)}
-            }
-        }
+
         
         # ✅ Создаём слайдеры с УНИКАЛЬНЫМИ ключами
-        for i, (sys_type, params) in enumerate(SLIDER_CONFIG.items()):
+        for i, (sys_type, params) in enumerate(self.SLIDER_CONFIG.items()):
             for j, (name, confs) in enumerate(params.items()):
                 
                 # ✅ Уникальный ключ: 'no_os_k', 'zhos_k', 'ios_k'
-                slider_key = f"{sys_type}_{name}"
+
                 
                 slider_ax_pos = [
                     self.position[0] + 0.05 + (col_width+0.05)*i,
@@ -286,7 +286,7 @@ class TabMain:
                     colors[i]
                 )
                 slider.connect_slider(self.update)
-                self.sliders[slider_key] = slider  # ✅ Сохраняем с уникальным ключом!
+                self.sliders[name] = slider  # ✅ Сохраняем с уникальным ключом!
     
     def _setup_animation(self):
         """Настроить анимацию"""
@@ -308,7 +308,7 @@ class TabMain:
     
     def update(self, val):
         """Обновить данные при изменении слайдеров"""
-        params = self._get_params()
+        params = {key:{key: self.sliders[key].get_value() for key in self.sliders} for key in self.SLIDER_CONFIG}
         
         try:
             for drive in self.drives:
@@ -344,22 +344,22 @@ class TabMain:
         """Собрать параметры из слайдеров"""
         return {
             'no_os': {
-                'k': self.sliders['no_os_k'].get_value(),
-                'zeta': self.sliders['no_os_zeta'].get_value(),
-                'T': self.sliders['no_os_T'].get_value()
+                'no_os_k': self.sliders['no_os_k'].get_value(),
+                'no_os_zeta': self.sliders['no_os_zeta'].get_value(),
+                'no_os_T': self.sliders['no_os_T'].get_value()
             },
             'zhos': {
-                'k': self.sliders['zhos_k'].get_value(),
-                'k_os': self.sliders['zhos_k_os'].get_value(),  # ✅ Ключ с подчёркиванием
-                'zeta': self.sliders['zhos_zeta'].get_value(),
-                'T': self.sliders['zhos_T'].get_value()
+                'zhos_k': self.sliders['zhos_k'].get_value(),
+                'zhos_k_os': self.sliders['zhos_k_os'].get_value(),  # ✅ Ключ с подчёркиванием
+                'zhos_zeta': self.sliders['zhos_zeta'].get_value(),
+                'zhos_T': self.sliders['zhos_T'].get_value()
             },
             'ios': {
-                'k': self.sliders['ios_k'].get_value(),
-                'k_os': self.sliders['ios_k_os'].get_value(),  # ✅ Ключ с подчёркиванием
-                'zeta': self.sliders['ios_zeta'].get_value(),
-                'Ti': self.sliders['ios_Ti'].get_value(),
-                'T': self.sliders['ios_T'].get_value()
+                'ios_k': self.sliders['ios_k'].get_value(),
+                'ios_k_os': self.sliders['ios_k_os'].get_value(),  # ✅ Ключ с подчёркиванием
+                'ios_zeta': self.sliders['ios_zeta'].get_value(),
+                'ios_Ti': self.sliders['ios_Ti'].get_value(),
+                'ios_T': self.sliders['ios_T'].get_value()
             }
         }
     

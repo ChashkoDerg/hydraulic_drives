@@ -178,9 +178,9 @@ class Base:
 class TabNoOs(Base):
     MODEL_TYPE = 'no_os'
     SLIDER_CONFIG = {
-            'k': {'label': 'k', 'borders': (1, 100)},
-            'zeta': {'label': 'ζ', 'borders': (0.1, 2.0)},
-            'T': {'label': 'T', 'borders': (0.005, 1)}
+            'no_os_k': {'label': 'k', 'borders': (1, 100)},
+            'no_os_zeta': {'label': 'ζ', 'borders': (0.1, 2.0)},
+            'no_os_T': {'label': 'T', 'borders': (0.005, 1)}
         }
     PLOT_TITLE = 'Гидропривод без ОС'
     PARAMS_KEY = "no_os"
@@ -189,10 +189,10 @@ class TabNoOs(Base):
 class TabZhOs(Base):
     MODEL_TYPE = 'zhos'
     SLIDER_CONFIG = {
-            'k': {'label': 'k', 'borders': (1, 100)},
-            'k_os': {'label': 'k_os', 'borders': (0.1, 5)},
-            'zeta': {'label': 'ζ', 'borders': (0.1, 2.0)},
-            'T': {'label': 'T', 'borders': (0.005, 1)}
+            'zhos_k': {'label': 'k', 'borders': (1, 100)},
+            'zhos_k_os': {'label': 'k_os', 'borders': (0.1, 5)},
+            'zhos_zeta': {'label': 'ζ', 'borders': (0.1, 2.0)},
+            'zhos_T': {'label': 'T', 'borders': (0.005, 1)}
         }
     PLOT_TITLE = 'Гидропривод с ЖОС'
     PARAMS_KEY = "zhos"
@@ -205,11 +205,11 @@ class TabIOs(Base):
 
     MODEL_TYPE = 'ios'
     SLIDER_CONFIG = {
-            'k': {'label': 'k', 'borders': (1, 100)},
-            'k_os': {'label': 'k_os', 'borders': (0.1, 5)},
-            'zeta': {'label': 'ζ', 'borders': (0.1, 2.0)},
-            'Ti': {'label': 'Ti', 'borders': (0.02, 0.5)},
-            'T': {'label': 'T', 'borders': (0.005, 1)}
+            'ios_k': {'label': 'k', 'borders': (1, 100)},
+            'ios_k_os': {'label': 'k_os', 'borders': (0.1, 5)},
+            'ios_zeta': {'label': 'ζ', 'borders': (0.1, 2.0)},
+            'ios_Ti': {'label': 'Ti', 'borders': (0.02, 0.5)},
+            'ios_T': {'label': 'T', 'borders': (0.005, 1)}
         }
     PLOT_TITLE = 'Гидропривод с ИОС'
     PARAMS_KEY = 'ios'

@@ -7,21 +7,21 @@ class HydraulicDrive:
     FORMULAS = {
         # W(p) = K / (T²p² + 2ζTp + 1)
         'no_os': {
-            'num': lambda p: [p['k']],
-            'den': lambda p: [p['T']**2, 2 * p['zeta'] * p['T'], 1],
-            'steady': lambda p: p['k'],
+            'num': lambda p: [p['no_os_k']],
+            'den': lambda p: [p['no_os_T']**2, 2 * p['no_os_zeta'] * p['no_os_T'], 1],
+            'steady': lambda p: p['no_os_k'],
         },
         # W(p) = K / (T²p² + 2ζ√(1+K·K_oc)·Tp + (1+K·K_oc))
         'zhos': {
-            'num': lambda p: [p['k']],
-            'den': lambda p: [p['T']**2, 2 * p['zeta'] * np.sqrt(1 + p['k'] * p['k_os']) * p['T'], 1 + p['k'] * p['k_os']],
-            'steady': lambda p: p['k'] / (1 + p['k'] * p['k_os']),
+            'num': lambda p: [p['zhos_k']],
+            'den': lambda p: [p['zhos_T']**2, 2 * p['zhos_zeta'] * np.sqrt(1 + p['zhos_k'] * p['zhos_k_os']) * p['zhos_T'], 1 + p['zhos_k'] * p['zhos_k_os']],
+            'steady': lambda p: p['zhos_k'] / (1 + p['zhos_k'] * p['zhos_k_os']),
         },
         # W(p) = (K·Ti·p + K) / (T²p³ + 2ζTp² + p + K·K_oc)
         'ios': {
-            'num': lambda p: [p['k'] * p.get('Ti', 0.03), p['k']],
-            'den': lambda p: [p['T']**2, 2 * p['zeta'] * p['T'], 1, p['k'] * p['k_os']],
-            'steady': lambda p: 1.0 / p['k_os'],
+            'num': lambda p: [p['ios_k'] * p.get('ios_Ti', 0.03), p['ios_k']],
+            'den': lambda p: [p['ios_T']**2, 2 * p['ios_zeta'] * p['ios_T'], 1, p['ios_k'] * p['ios_k_os']],
+            'steady': lambda p: 1.0 / p['ios_k_os'],
         }
     }
     
