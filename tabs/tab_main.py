@@ -340,29 +340,6 @@ class TabMain:
         except Exception as e:
             print(f"Ошибка при обновлении: {e}")
     
-    def _get_params(self):
-        """Собрать параметры из слайдеров"""
-        return {
-            'no_os': {
-                'no_os_k': self.sliders['no_os_k'].get_value(),
-                'no_os_zeta': self.sliders['no_os_zeta'].get_value(),
-                'no_os_T': self.sliders['no_os_T'].get_value()
-            },
-            'zhos': {
-                'zhos_k': self.sliders['zhos_k'].get_value(),
-                'zhos_k_os': self.sliders['zhos_k_os'].get_value(),  # ✅ Ключ с подчёркиванием
-                'zhos_zeta': self.sliders['zhos_zeta'].get_value(),
-                'zhos_T': self.sliders['zhos_T'].get_value()
-            },
-            'ios': {
-                'ios_k': self.sliders['ios_k'].get_value(),
-                'ios_k_os': self.sliders['ios_k_os'].get_value(),  # ✅ Ключ с подчёркиванием
-                'ios_zeta': self.sliders['ios_zeta'].get_value(),
-                'ios_Ti': self.sliders['ios_Ti'].get_value(),
-                'ios_T': self.sliders['ios_T'].get_value()
-            }
-        }
-    
     def destroy(self):
         """Очистить ресурсы"""
         if self.animation:
