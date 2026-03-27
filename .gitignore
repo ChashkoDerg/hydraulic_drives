@@ -1,0 +1,30 @@
+# --- Виртуальное окружение ---
+venv/
+env/
+.venv/
+
+# --- Python кэш ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# --- Файлы отладки и логи ---
+*.log
+tmp/
+temp/
+.env
+
+# --- IDE и редакторы ---
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# --- matplotlib кэш ---
+matplotlibrc
+
+# --- ОС ---
+.DS_Store
+Thumbs.db
