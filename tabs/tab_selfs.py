@@ -65,8 +65,8 @@ class Base:
         ])
         
         self.ax.grid(True)
-        self.ax.set_xlim(0, max(self.drive.t))
-        self.ax.set_ylim(0, self.drive.max_val + 2)
+        self.ax.set_xlim(0, self.drive.settling_time*2.5)
+        self.ax.set_ylim(0, self.drive.max_val*1.1)
         self.ax.axhline(y=self.drive.steady, color='red', ls='--', label='Установившееся')
         self.ax.axhline(y= self.drive.params['no_os_k'] if self.drive.type == 'no_os' else 1 , color='gray', ls=':', label='Задание')
         self.ax.set_title(self.PLOT_TITLE)
@@ -130,8 +130,8 @@ class Base:
         self.drive.params.update(params)
         self.drive.calc()
         
-        self.ax.set_xlim(0, max(self.drive.t))
-        self.ax.set_ylim(0, self.drive.max_val + 2)
+        self.ax.set_xlim(0, self.drive.settling_time*2.5)
+        self.ax.set_ylim(0, self.drive.max_val*1.1)
         
         for line in self.ax.get_lines():
             if line.get_linestyle() == '--' and line.get_color() == 'red':
