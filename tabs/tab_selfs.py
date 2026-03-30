@@ -65,7 +65,7 @@ class Base:
         ])
         
         self.ax.grid(True)
-        self.ax.set_xlim(0, self.drive.settling_time*2.5)
+        self.ax.set_xlim(0, self.drive.settling_time*1.5)
         self.ax.set_ylim(0, self.drive.max_val*1.1)
         self.ax.axhline(y=self.drive.steady, color='red', ls='--', label='Установившееся')
         self.ax.axhline(y= self.drive.params['no_os_k'] if self.drive.type == 'no_os' else 1 , color='gray', ls=':', label='Задание')

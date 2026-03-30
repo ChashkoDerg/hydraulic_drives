@@ -45,20 +45,15 @@ class TabManager:
     def switch_to_tab(self, tab_class):
         """Переключается на указанную вкладку"""
         if self.current_tab:
-            try:
-                self.fig.clf()
-            except Exception:
-                pass
-            
+            self.fig.clf()
         self._create_buttons()
         self.current_tab = tab_class(self.fig, [0.0, 0.03, 0.9, 0.85], self.params_init)
         self.fig.canvas.draw_idle()
     
     def _show_first_tab(self):
         """Показывает первую вкладку при запуске"""
-        if self.tab_configs:
-            self.switch_to_tab(self.tab_configs[0]["class"])
-            self._create_buttons()
+        self.switch_to_tab(self.tab_configs[0]["class"])
+
 
 
 class PlotWindow:

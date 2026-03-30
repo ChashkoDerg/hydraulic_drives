@@ -49,7 +49,7 @@ class HydraulicDrive:
         self.max_val = np.max(self.y)
 
         self.settling_time = self.t[-1]
-        tolerance = 0.05 * self.steady
+        tolerance = 0.00266 * self.steady
         for i in range(len(self.y) - 1, -1, -1):
             if abs(self.y[i] - self.steady) > tolerance:
                 if i < len(self.t) - 1:

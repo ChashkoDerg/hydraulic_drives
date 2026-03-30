@@ -167,12 +167,13 @@ class TabMain:
                 break
         
         settling_time = t[-1]
-        tolerance = 0.05 * drive.steady
+        tolerance = 0.00266 * drive.steady
         for i in range(len(y) - 1, -1, -1):
             if abs(y[i] - drive.steady) > tolerance:
                 if i < len(t) - 1:
                     settling_time = t[i + 1]
                 break
+
         
         return {
             'steady': drive.steady,
