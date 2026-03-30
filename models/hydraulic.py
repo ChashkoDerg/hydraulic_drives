@@ -47,6 +47,7 @@ class HydraulicDrive:
         
         self.steady = self.f['steady'](self.params)
         self.max_val = np.max(self.y)
+        self.min_val = np.min(self.y)
 
         self.settling_time = self.t[-1]
         tolerance = 0.00266 * self.steady

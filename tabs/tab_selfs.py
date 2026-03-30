@@ -47,7 +47,18 @@ class Base:
         self._create_sliders()
         self._setup_animation()
         
+    def y_lim(self):
+        dy_lim_max = self.drive.max_val - self.drive.steady
+        dy_lim_min = abs(self.drive.min_val)
 
+        if dy_lim_max > self.drive.steady or dy_lim_min > self.drive.steady:
+            if dy_lim_max > dy_lim_min:
+                dy_lim = dy_lim_max
+            else:
+                dy_lim = dy_lim_min
+        else:
+            dy_lim = self.drive.steady
+        return (self.drive.steady - dy_lim)*1.1, (self.drive.steady + dy_lim)*1.1
     
 
     def _create_plot(self):
@@ -56,7 +67,9 @@ class Base:
         bottom = 0.45
         width = 0.35
         height = 0.4
-        
+
+
+
         self.ax = self.fig.add_axes([
             self.position[0] + left,
             self.position[1] + bottom,
@@ -66,7 +79,7 @@ class Base:
         
         self.ax.grid(True)
         self.ax.set_xlim(0, self.drive.settling_time*1.5)
-        self.ax.set_ylim(0, self.drive.max_val*1.1)
+        self.ax.set_ylim(*self.y_lim())
         self.ax.axhline(y=self.drive.steady, color='red', ls='--', label='Установившееся')
         self.ax.axhline(y= self.drive.params['no_os_k'] if self.drive.type == 'no_os' else 1 , color='gray', ls=':', label='Задание')
         self.ax.set_title(self.PLOT_TITLE)
@@ -130,8 +143,8 @@ class Base:
         self.drive.params.update(params)
         self.drive.calc()
         
-        self.ax.set_xlim(0, self.drive.settling_time*2.5)
-        self.ax.set_ylim(0, self.drive.max_val*1.1)
+        self.ax.set_xlim(0, self.drive.settling_time*1.5)
+        self.ax.set_ylim(*self.y_lim())
         
         for line in self.ax.get_lines():
             if line.get_linestyle() == '--' and line.get_color() == 'red':
