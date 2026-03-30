@@ -46,10 +46,11 @@ class TabManager:
         """Переключается на указанную вкладку"""
         if self.current_tab:
             try:
-                self.current_tab.destroy()
+                self.fig.clf()
             except Exception:
                 pass
-        
+            
+        self._create_buttons()
         self.current_tab = tab_class(self.fig, [0.0, 0.03, 0.9, 0.85], self.params_init)
         self.fig.canvas.draw_idle()
     
@@ -57,6 +58,7 @@ class TabManager:
         """Показывает первую вкладку при запуске"""
         if self.tab_configs:
             self.switch_to_tab(self.tab_configs[0]["class"])
+            self._create_buttons()
 
 
 class PlotWindow:
