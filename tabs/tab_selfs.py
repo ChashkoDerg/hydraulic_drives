@@ -200,6 +200,10 @@ class TabNoOs(Base):
 
 
 class TabZhOs(Base):
+    def __init__(self, fig, position, params_init):
+        super().__init__(fig, position, params_init)  # ✅ Передаём в Base 
+        self.scheme = ZHOSScheme(fig, position)  # ✅ Создаём схему здесь
+
     MODEL_TYPE = 'zhos'
     SLIDER_CONFIG = {
             'zhos_k': {'label': 'k', 'borders': (1, 100)},
@@ -213,7 +217,6 @@ class TabZhOs(Base):
 class TabIOs(Base):
 
     def __init__(self, fig, position, params_init):
-        self.scheme = IOSScheme(fig, position)  # ✅ Создаём схему здесь
         super().__init__(fig, position, params_init)  # ✅ Передаём в Base 
 
     MODEL_TYPE = 'ios'
@@ -226,6 +229,7 @@ class TabIOs(Base):
         }
     PLOT_TITLE = 'Гидропривод с ИОС'
     PARAMS_KEY = 'ios'
+
 
 
     
