@@ -1,6 +1,8 @@
+import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
 from matplotlib.animation import FuncAnimation
+import math
 
 class SchemeManager:
     SCHEME_FOLDER = None
@@ -35,7 +37,7 @@ class SchemeManager:
     def _create_scheme(self):
         """Создать оси для схемы"""
         width = 0.35
-        height = width * 1.0  # ✅ ИЗМЕНИТЬ: было 1.5 → стало 1.0 (квадрат)
+        height = width * 1.5  # ✅ ИЗМЕНИТЬ: было 1.5 → стало 1.0 (квадрат)
         
         if not self.SCHEME_FOLDER:
             return
@@ -48,8 +50,8 @@ class SchemeManager:
         ])
         self.scheme_ax.set_xlim(-2, 2)
         self.scheme_ax.set_ylim(-2, 2)
-        self.scheme_ax.axis('on') 
-        self.scheme_ax.set_aspect('equal')  # ✅ ИЗМЕНИТЬ: было 'auto' → стало 'equal'
+        self.scheme_ax.axis('off') 
+        self.scheme_ax.set_aspect('auto')  # ✅ ИЗМЕНИТЬ: было 'auto' → стало 'equal'
 
     def _create_scheme_components(self):
         """Создать элементы схемы (переопределяется в дочерних классах)"""
@@ -73,7 +75,9 @@ class NOOSScheme(SchemeManager):
 
 class ZHOSScheme(SchemeManager):
     SCHEME_FOLDER = 'ZHOS'
-    TOTAL_FRAMES = 40  # ✅ Количество кадров анимации
+    TOTAL_FRAMES = 240  # ✅ Количество кадров анимации
+    prev_frame_num = None
+    is_increasing = None
     
     def __init__(self, fig, position):
         # ✅ Вызов родителя без лишних аргументов
@@ -89,7 +93,7 @@ class ZHOSScheme(SchemeManager):
         if 'frame_1' in self.scheme_images:
             self.scheme_patches['frame_1'] = ax.imshow(
                 self.scheme_images['frame_1'],
-                extent=[-1, 1, -2, 2],
+                extent=[-2, 2, -2, 2],
                 aspect='auto',
                 animated=True
             )
@@ -99,32 +103,38 @@ class ZHOSScheme(SchemeManager):
     
     def _setup_animation(self):
         """Настроить анимацию готовых кадров"""
-        if 'frame_1' not in self.scheme_patches:
-            print("⚠️ ZHOS: нельзя создать анимацию без изображения")
-            return
-        
-        def animate(frame_idx):
-            frame_num = frame_idx + 1
+        def animate(t):
+            amplitude = 20
+            period = 60
+            center = 23 
+            decay_rate = 0.01    
+
+            frame_num = int(amplitude * math.exp(-decay_rate * t) * math.sin(2 * math.pi * t / period)) + center
+            
             img_key = f'frame_{frame_num}'
-            
+
             patch = self.scheme_patches['frame_1']
-            if img_key in self.scheme_images:
-                patch.set_data(self.scheme_images[img_key])
+            patch.set_data(self.scheme_images[img_key])
+            # if prev_frame_num is not None:
+            #     if frame_num > prev_frame_num:
+            #         self.is_increasing = True    # 📈 Кадры увеличиваются
+            #     elif frame_num < prev_frame_num:
+            #         self.is_increasing = False   # 📉 Кадры уменьшаются
+            # Если равны — направление не меняем
+            prev_frame_num = frame_num
             
-            return [patch]  # ✅ Для blit
+            return patch  # ✅ Для blit
         
         self.animation = FuncAnimation(
             self.fig,
             animate,
             frames=self.TOTAL_FRAMES,
-            interval=50,
+            interval=1,
             blit=False,
             repeat=False,
             cache_frame_data=False
         )
-        # ✅ Защита от сборщика мусора
-        self.fig._anim = self.animation
-        print(f"✅ ZHOS: анимация настроена ({self.TOTAL_FRAMES} кадров)")
+
 
 
 class IOSScheme(SchemeManager):
